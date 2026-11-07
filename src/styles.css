@@ -1,0 +1,1475 @@
+/* =============================================================
+ * Content Engine · tema Subido AI by Viver de IA
+ * Design System SUBIDO v1.0 · flat · navy · Geist. Decisões em docs/design-system-subido.md
+ *
+ * Fonte de verdade do design system: src/design-system/ (kit oficial
+ * viver-de-ia-kit: tokens.css / surfaces.css / data.css / fonts).
+ * Este arquivo só faz a PONTE kit → variáveis semânticas do shadcn
+ * (Tailwind v4 @theme inline). Não invente cor fora da paleta do kit.
+ * ============================================================= */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "./design-system/fonts/fonts.css";
+/* Kit em layer(base): sem isso, as regras cruas do kit (a, h1-h4, body) são
+ * UNLAYERED e ganham de qualquer utility do Tailwind v4 (cascade layers) —
+ * ex.: `a { color: navy }` apagando o texto branco do CTA. */
+@import "./design-system/tokens.css" layer(base);
+@import "./design-system/surfaces.css" layer(components);
+@import "./design-system/data.css" layer(components);
+/* Arte do carrossel: SEM layer de propósito. Regra não-layered
+ * ganha de qualquer layer — a arte publicada não pode ser alterada por uma
+ * utility do Tailwind que passe perto. O arquivo também não usa nenhum token
+ * do TEMA: a matéria vem do brand kit por custom property inline e a forma por
+ * data-attribute, porque o export PNG clona o node e a arte publicada não pode
+ * mudar porque alguém trocou o tema da interface. */
+@import "./design-system/carousel-art.css";
+@import "./design-system/carousel-editorial.css";
+/* Camada Revenue-Centric do kit DS SUBIDO (04/11, decisão do Samuel: kit
+ * inteiro). Sem layer de propósito: precisa vencer as utilities. Age nas
+ * classes-gancho ds-* (botão, card, métrica) e no texto < 13px dentro de main. */
+@import "./design-system/ds/revenue.css";
+/* Marca e movimento do kit: logo SUBIDO AI, anel do assistente, animações do
+ * onboarding, item de menu destacado e rótulo de grupo. */
+@import "./design-system/ds/subido.css";
+/* Telas de acesso do kit (login, redefinir senha): classes lsf-*. */
+@import "./design-system/ds/auth.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: calc(var(--radius) + 26px);
+  --radius-4xl: calc(var(--radius) + 26px);
+  --font-sans: var(--via-font);
+  --font-display: var(--via-font-display);
+  /* mínimo do DS: 13px em conteúdo; 11px fica para caps e selo */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.45;
+  --font-mono: var(--via-font-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Ponte shadcn → paleta Subido AI (light · o padrão da marca) */
+:root {
+  /* palco de vídeo: a "sala escura" onde quadros e clipes aparecem */
+  --via-stage: #0b0d12;
+  --radius: 14px; /* --via-radius-md · botão/input; card usa 20px direto */
+  --background: var(--via-gray-50); /* canvas: card branco sobre cinza dispensa sombra */
+  --foreground: var(--via-navy);
+  --card: var(--via-white);
+  --card-foreground: var(--via-text-primary);
+  --popover: var(--via-white);
+  --popover-foreground: var(--via-text-primary);
+  --primary: var(--via-navy);
+  --primary-foreground: var(--via-white);
+  --secondary: var(--via-gray-100);
+  --secondary-foreground: var(--via-navy);
+  --muted: var(--via-gray-100);
+  --muted-foreground: var(--via-text-muted);
+  --accent: var(--via-gray-100);
+  --accent-foreground: var(--via-navy);
+  --destructive: var(--via-coral);
+  --destructive-foreground: var(--via-white);
+  --border: var(--via-navy-10);
+  --input: var(--via-border);
+  --ring: var(--via-navy-40);
+  --chart-1: var(--via-data-1);
+  --chart-2: var(--via-data-2);
+  --chart-3: var(--via-chart-2);
+  --chart-4: var(--via-chart-4);
+  --chart-5: var(--via-chart-5);
+  /* Sidebar branca: hover em navy-06, item ativo em pílula navy.
+   * Tudo aqui é token — nenhum componente fora da sidebar muda de cor. */
+  --sidebar: var(--via-white);
+  --sidebar-foreground: var(--via-text-primary);
+  --sidebar-icon: var(--via-text-soft);
+  --sidebar-eyebrow: var(--via-text-soft);
+  --sidebar-meta: var(--via-text-muted);
+  --sidebar-primary: var(--via-navy);
+  --sidebar-primary-foreground: var(--via-white);
+  --sidebar-accent: var(--via-navy-06);
+  --sidebar-accent-foreground: var(--via-text-primary);
+  --sidebar-border: var(--via-border-soft);
+  --sidebar-ring: var(--via-navy-40);
+}
+
+/* Dark = modo alternativo (usuário liga) · fundo escuro da marca (#040814).
+ * Sem toggle hoje; o bloco existe pra herança futura sem retrabalho. */
+.dark {
+  --background: #040814;
+  --foreground: #f4f6fa;
+  --card: #0a1222;
+  --card-foreground: #d0d5dd;
+  --popover: #0a1222;
+  --popover-foreground: #d0d5dd;
+  --primary: #f4f6fa;
+  --primary-foreground: #040814;
+  --secondary: #111b30;
+  --secondary-foreground: #f4f6fa;
+  --muted: #0a1222;
+  --muted-foreground: #aeb8c6;
+  --accent: #111b30;
+  --accent-foreground: #f4f6fa;
+  --destructive: #e58a8a;
+  --destructive-foreground: #040814;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.18);
+  --ring: rgba(255, 255, 255, 0.5);
+  --chart-1: #408bff;
+  --chart-2: #276ef5;
+  --chart-3: #73b7ff;
+  --chart-4: #a9d3ff;
+  --chart-5: #e6f5ff;
+  /* No escuro a sidebar não pode ser branca (ofuscaria): vira a superfície
+   * escura um degrau acima do canvas, com o mesmo comportamento de hover. */
+  --sidebar: var(--via-surface);
+  --sidebar-foreground: var(--via-text-muted);
+  --sidebar-primary: var(--via-white);
+  --sidebar-primary-foreground: var(--via-navy);
+  --sidebar-accent: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-active: rgba(255, 255, 255, 0.1);
+  --sidebar-accent-foreground: var(--via-text-primary);
+  --sidebar-border: var(--via-border-soft);
+  --sidebar-ring: rgba(255, 255, 255, 0.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--via-text-body);
+    font-family: var(--via-font);
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* =============================================================
+ * Assinaturas da casa (receitas completas — usar em vez de estilizar à mão)
+ * ============================================================= */
+@layer components {
+  /* Canvas do app: cinza-claro chapado */
+  .via-app-bg {
+    background: var(--via-gray-50);
+  }
+
+  /* Superfície plana: branco, hairline navy e nada de sombra ou brilho */
+  .via-card-glass {
+    position: relative;
+    background: var(--via-surface);
+    border: 1px solid var(--via-border-soft);
+    transition: border-color var(--via-dur) var(--via-ease-snap);
+  }
+
+  /* Superfície clicável: responde pela borda, sem subir */
+  .via-lift:hover {
+    border-color: var(--via-navy-20);
+  }
+
+  /* Seleção = fio navy sólido de 1.5px (borda 1px + 0.5px por dentro) e um
+     tom navy bem claro por cima. Sem halo colorido; a sombra segue neutra. */
+  .via-selected {
+    border-color: var(--via-navy) !important;
+    background-image: linear-gradient(var(--via-navy-04), var(--via-navy-04)) !important;
+    box-shadow: inset 0 0 0 0.5px var(--via-navy) !important;
+  }
+
+  /* Título fora de um h1, ex.: formulário de acesso */
+  .via-title {
+    font-family: var(--via-font-display);
+    font-weight: var(--via-fw-display);
+    text-transform: var(--via-tt-display);
+    letter-spacing: var(--via-ls-display);
+  }
+
+  /* Logo da sidebar por tema: preta no claro, branca no escuro (arquivos
+     dedicados — o DS proíbe inverter a marca por filter). */
+  .via-logo-on-dark {
+    display: none;
+  }
+  [data-theme="dark"] .via-logo-on-light {
+    display: none;
+  }
+  [data-theme="dark"] .via-logo-on-dark {
+    display: block;
+  }
+
+  /* Barra lateral azul que aparece no hover de rows (assinatura comportamental) */
+  .via-row-signature {
+    position: relative;
+    overflow: hidden;
+  }
+  .via-row-signature::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--via-brand-blue), transparent);
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  .via-row-signature:hover::before {
+    opacity: 1;
+  }
+
+  /* Momento navy full-bleed (1 por página: hero/fechamento) */
+  .via-hero-navy {
+    background: var(--via-mesh-navy);
+    color: var(--via-white);
+  }
+}
+
+/* =============================================================
+ * Dashboard (Content Engine) · movimento com propósito · prefixo .ce-
+ * Só transform/opacity. Reduced-motion zerado pelo bloco global do kit.
+ * ============================================================= */
+@keyframes ce-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Entrada escalonada de módulo (60ms entre blocos via --ce-reveal-delay) */
+.ce-reveal {
+  animation: ce-reveal var(--via-dur) var(--via-ease-out) both;
+  animation-delay: var(--ce-reveal-delay, 0ms);
+}
+/* Sem movimento: o bloco global zera a duração; aqui zera também o atraso,
+   senão o módulo fica invisível durante o escalonamento. */
+@media (prefers-reduced-motion: reduce) {
+  .ce-reveal {
+    animation-delay: 0ms;
+  }
+}
+/* Ladrilho/linha acionável: a borda responde no hover e aperta no press (110ms). */
+.ce-tile {
+  transition:
+    transform var(--via-dur) var(--via-ease-snap),
+    border-color var(--via-dur) var(--via-ease-snap),
+    background-color var(--via-dur) var(--via-ease-snap),
+    box-shadow var(--via-dur) var(--via-ease-snap);
+}
+.ce-tile:active,
+.ce-tile.via-tile--lift:active {
+  transform: scale(0.97);
+  transition-duration: var(--via-dur-press);
+}
+/* Poço do ícone do ladrilho: fundo navy-04 + linha de luz de 1px no topo */
+.ce-tile-well {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--via-border-soft);
+  background: var(--via-navy-04);
+  box-shadow: inset 0 1px 0 var(--via-edge-hi);
+  transition: transform var(--via-dur) var(--via-ease-snap);
+}
+.ce-tile:hover .ce-tile-well {
+  transform: translateY(-1px);
+}
+/* Check de seleção entra com mola (só check/radio/toggle usam a spring) */
+@keyframes ce-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ce-check-in {
+  animation: ce-check-in var(--via-t) both;
+  animation-timing-function: var(--via-ease-spring);
+}
+/* Passo atual no stepper: fio navy de 1.5px (estado real, estático), sem halo */
+.ce-step-current {
+  box-shadow: inset 0 0 0 0.5px var(--via-navy);
+}
+
+/* Campo de criação do Dashboard: pílula de vidro do kit sobre fundo claro.
+   Profundidade só pela sombra e pela linha de luz interna; o foco usa o halo
+   navy do sistema. Nada de cor de fundo própria. */
+.ce-hero-field {
+  border-radius: 9999px;
+  background: var(--via-glass-card);
+  backdrop-filter: var(--via-blur-md);
+  -webkit-backdrop-filter: var(--via-blur-md);
+  border: var(--via-glass-ring);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-glass-shadow);
+  transition:
+    box-shadow var(--via-dur) var(--via-ease-snap),
+    transform var(--via-dur) var(--via-ease-snap);
+}
+.ce-hero-field:hover {
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-glass-shadow-lift);
+}
+/* Foco do campo: a borda escurece (neutra); sem halo colorido. */
+.ce-hero-field:focus-within {
+  transform: translateY(-1px);
+  border-color: var(--via-navy-30);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-glass-shadow-lift);
+}
+
+/* Modal: superfície de vidro que "materializa" (220ms) e some em 120ms.
+   Radix mantém data-state=closed até o fim da animação de saída. */
+@keyframes ce-materialize {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.005);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    backdrop-filter: var(--via-blur-lg);
+    -webkit-backdrop-filter: var(--via-blur-lg);
+  }
+}
+@keyframes ce-dismiss {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+@keyframes ce-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ce-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+/* Vidro do kit sobre a base translúcida de barra: sobre o scrim, o gradiente
+   sozinho (58% na base) deixava o texto muted em 4.0:1 — abaixo de AA. */
+.ce-modal {
+  /* superfície sólida: a página não vaza pelo modal. Não somar --via-glass-card
+     aqui: no DS ele é cor, e cor numa camada de cima invalida o background inteiro */
+  background: var(--via-surface);
+  backdrop-filter: var(--via-blur-lg);
+  -webkit-backdrop-filter: var(--via-blur-lg);
+  border: var(--via-glass-ring);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-shadow-xl);
+}
+.ce-modal[data-state="open"] {
+  animation: ce-materialize var(--via-dur) var(--via-ease-out) both;
+}
+.ce-modal[data-state="closed"] {
+  animation: ce-dismiss var(--via-t-fast) both;
+}
+/* Scrim radial navy com desfoque leve atrás do modal/sheet */
+.ce-scrim {
+  background: radial-gradient(
+    ellipse 90% 80% at 50% 35%,
+    var(--via-shadow-ink-40),
+    var(--via-shadow-ink-60)
+  );
+  backdrop-filter: var(--via-blur-sm);
+  -webkit-backdrop-filter: var(--via-blur-sm);
+}
+.ce-scrim[data-state="open"] {
+  animation: ce-fade-in var(--via-dur) var(--via-ease-out) both;
+}
+.ce-scrim[data-state="closed"] {
+  animation: ce-fade-out var(--via-t-fast) both;
+}
+/* Botão de fechar gira 90° no hover */
+.ce-modal-close {
+  transition:
+    transform var(--via-dur) var(--via-ease-snap),
+    opacity var(--via-dur) var(--via-ease-snap);
+}
+.ce-modal-close:hover {
+  transform: rotate(90deg);
+}
+/* Sheet: mesmo vidro do modal; o deslize vem do tw-animate com --via-ease-out */
+.ce-sheet {
+  background: var(--via-surface);
+  backdrop-filter: var(--via-blur-lg);
+  -webkit-backdrop-filter: var(--via-blur-lg);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-shadow-xl);
+}
+
+/* Assistente: painel em vidro ancorado + botão flutuante com lift/press */
+@keyframes ce-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ce-assist-panel {
+  background: var(--via-surface);
+  backdrop-filter: var(--via-blur-md);
+  -webkit-backdrop-filter: var(--via-blur-md);
+  border: var(--via-glass-ring);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-shadow-xl);
+  transform-origin: 100% 100%;
+  animation: ce-panel-in var(--via-dur) var(--via-ease-out) both;
+}
+.ce-fab {
+  transition:
+    transform var(--via-dur) var(--via-ease-snap),
+    box-shadow var(--via-dur) var(--via-ease-snap);
+  box-shadow: var(--via-shadow-md);
+}
+.ce-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--via-shadow-lg);
+}
+.ce-fab:active {
+  transform: scale(0.97);
+  transition-duration: var(--via-dur-press);
+}
+
+/* Sidebar: item ativo com sombra de tinta suave, transição --via-t, sem sublinhado */
+.ce-nav-item {
+  transition:
+    background-color var(--via-t),
+    color var(--via-t),
+    box-shadow var(--via-t),
+    transform var(--via-dur-press) var(--via-ease-snap);
+}
+.ce-nav-item:active {
+  transform: scale(0.98);
+}
+
+/* Toast: vidro, entra em 320ms (materializa), sai em 120ms; erro respira a borda coral */
+@keyframes ce-toast-in {
+  0% {
+    opacity: 0;
+    transform: var(--y) translateY(10px) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: var(--y) translateY(-1px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: var(--y);
+  }
+}
+@keyframes ce-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+[data-sonner-toast][data-styled="true"].ce-toast {
+  position: absolute;
+  background: var(--via-surface);
+  backdrop-filter: var(--via-blur-md);
+  -webkit-backdrop-filter: var(--via-blur-md);
+  border: var(--via-glass-ring);
+  border-radius: var(--via-radius-md);
+  color: var(--via-text-primary);
+  font-family: var(--via-font);
+  box-shadow:
+    inset 0 1px 0 var(--via-edge-hi),
+    var(--via-shadow-lg);
+  transition:
+    transform 320ms var(--via-ease-out),
+    opacity 320ms var(--via-ease-out),
+    height 320ms var(--via-ease-out),
+    box-shadow var(--via-dur) var(--via-ease-snap);
+}
+[data-sonner-toast][data-mounted="true"].ce-toast {
+  animation: ce-toast-in 320ms var(--via-ease-out) backwards;
+}
+[data-sonner-toast][data-removed="true"].ce-toast {
+  transition-duration: 120ms, 120ms, 120ms, 120ms;
+}
+.ce-toast [data-description] {
+  color: var(--via-text-muted);
+}
+[data-sonner-toast][data-type="error"].ce-toast {
+  border-color: var(--via-coral);
+}
+[data-sonner-toast][data-type="error"].ce-toast::before {
+  content: "";
+  position: absolute;
+  /* o Sonner dá altura própria ao ::before: sem height:auto, a borda sobra para cima */
+  inset: -1px;
+  height: auto;
+  border-radius: inherit;
+  border: 1px solid var(--via-coral);
+  pointer-events: none;
+  animation: ce-breathe 3.2s var(--via-ease) infinite;
+}
+
+/* Skeleton: varredura dupla de luz em 1,8s (transform), em vez do pulse */
+@keyframes ce-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+.ce-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--via-navy-06);
+}
+.ce-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--via-edge-lo) 18%,
+    var(--via-edge-hi) 24%,
+    var(--via-edge-lo) 30%,
+    transparent 42%,
+    transparent 58%,
+    var(--via-edge-lo) 68%,
+    var(--via-edge-hi) 74%,
+    var(--via-edge-lo) 80%,
+    transparent 100%
+  );
+  animation: ce-sweep 1.8s var(--via-ease) infinite;
+}
+
+/* Sem movimento: o bloco global do kit zera durações e iterações; aqui só o
+   que ficaria num estado intermediário visível. */
+@media (prefers-reduced-motion: reduce) {
+  .ce-tile:hover,
+  .ce-tile.via-tile--lift:hover,
+  .ce-tile:hover .ce-tile-well,
+  .ce-fab:hover,
+  .ce-modal-close:hover {
+    transform: none;
+  }
+  .ce-skeleton::after,
+  [data-sonner-toast][data-type="error"].ce-toast::before {
+    animation: none;
+  }
+  [data-sonner-toast][data-type="error"].ce-toast::before {
+    opacity: 1;
+  }
+}
+
+/* Primeiros passos · anel desenha até a fração concluída; segmento atual com
+   o brilho do kit (só transform/opacity). */
+.ce-ring {
+  transition: stroke-dashoffset 700ms var(--via-ease-out);
+}
+.ce-segment-current::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--via-navy), transparent);
+  opacity: 0.9;
+  animation: ce-segment-sweep 2.4s var(--via-ease) infinite;
+}
+@keyframes ce-segment-sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(280%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ce-segment-current::after {
+    animation: none;
+    transform: none;
+    width: 100%;
+    opacity: 0.6;
+  }
+}
+
+/* Flutuar lento dos ícones das redes no painel vazio (só transform). */
+@keyframes ce-float {
+  from {
+    transform: translateY(-5px);
+  }
+  to {
+    transform: translateY(5px);
+  }
+}
+.ce-float {
+  animation: ce-float 3.2s var(--via-ease) infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ce-float {
+    animation: none;
+    transform: none !important;
+  }
+}
+
+/* Retorno de ação (feedback.tsx) · o check se desenha onde a ação aconteceu,
+   o item concluído acende uma vez e o que falhou balança de leve. Só
+   transform/opacity/stroke; o bloco global de reduced-motion zera as durações
+   e o estado final (check desenhado, sem brilho) fica. */
+.ce-check path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 0;
+  animation: ce-check-draw 420ms var(--via-ease-out) both;
+}
+@keyframes ce-check-draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.ce-check-pop {
+  animation: ce-check-pop 420ms var(--via-ease-spring) both;
+}
+@keyframes ce-check-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.ce-glow {
+  position: relative;
+}
+.ce-glow::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px var(--via-navy-30);
+  opacity: 0;
+  animation: ce-glow 1400ms var(--via-ease-out);
+}
+@keyframes ce-glow {
+  0%,
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ce-shake {
+  animation: ce-shake 360ms var(--via-ease-out);
+}
+@keyframes ce-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Ilustração viva do login (components/auth/engine-pulse.tsx)
+   Mural de métricas das redes em vidro sobre o navy: branco 6% +
+   borda 12% + linha de luz, blur 12px. Cinco módulos num grid de 2
+   colunas entram em sequência (--m); depois cada pulso move barras,
+   anel e linha por transição. Só transform/opacity/stroke; movimento
+   reduzido = estado final.
+   --------------------------------------------------------------- */
+.ce-pulse {
+  position: relative;
+  /* ocupa o palco inteiro: a largura toda e a altura que sobra abaixo do
+     logo; o mural fica no meio quando a tela é alta */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  container-type: inline-size;
+  /* faixas dos avisos acima e abaixo do mural */
+  padding-block: 48px;
+  text-align: left;
+}
+.ce-pulse-glass {
+  border-radius: var(--via-radius-lg);
+  background: color-mix(in srgb, var(--via-white) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--via-white) 14%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--via-white) 18%, transparent),
+    0 18px 40px -22px rgb(0 0 0 / 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+.ce-pulse-wall {
+  position: relative;
+  display: grid;
+  /* 3 colunas × 2 linhas: alcance largo + semana em cima; revisão,
+     concorrência e redes embaixo. Largo sem ficar alto. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* a linha de cima estica com a altura; a de baixo tem o tamanho do conteúdo */
+  grid-template-rows: minmax(min-content, 1fr) auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 600px;
+  gap: clamp(10px, 1.6cqw, 16px);
+}
+.ce-pulse-module {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(12px, 2.6cqw, 20px) clamp(14px, 3cqw, 22px);
+  animation: ce-pulse-rise 600ms var(--via-ease-out) both;
+  animation-delay: calc(var(--m) * 120ms);
+}
+/* Foco no hover: o módulo sob o mouse vem para a frente (cresce, sobe, vidro
+   mais claro e sombra maior) e os outros recuam e esmaecem. A célula leva o
+   transform; o vidro dentro dela guarda a animação de entrada. */
+.ce-pulse-cell {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  transition:
+    transform 320ms var(--via-ease-spring),
+    opacity 240ms var(--via-ease-out),
+    filter 240ms var(--via-ease-out);
+}
+.ce-pulse-cell > .ce-pulse-module {
+  transition:
+    background-color 240ms var(--via-ease-out),
+    border-color 240ms var(--via-ease-out),
+    box-shadow 320ms var(--via-ease-out);
+}
+.ce-pulse-cell:hover {
+  z-index: 3;
+  transform: translateY(-6px) scale(1.07);
+}
+.ce-pulse-cell:hover > .ce-pulse-module {
+  background: color-mix(in srgb, var(--via-white) 12%, transparent);
+  border-color: color-mix(in srgb, var(--via-white) 26%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--via-white) 22%, transparent),
+    0 32px 64px -24px var(--via-navy-60);
+}
+.ce-pulse-wall:has(.ce-pulse-cell:hover) .ce-pulse-cell:not(:hover) {
+  opacity: 0.45;
+  filter: blur(1.5px);
+  transform: scale(0.97);
+}
+.ce-pulse-cell > .ce-pulse-module {
+  flex: 1;
+}
+.ce-pulse-cell--wide {
+  grid-column: span 2;
+}
+.ce-pulse-module-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+.ce-pulse-module-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--subido-blue-light);
+}
+.ce-pulse-module-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--via-white) 62%, transparent);
+}
+.ce-pulse-delta {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: var(--via-fs-label);
+  font-weight: var(--via-fw-medium);
+  color: rgb(255 255 255 / 0.7);
+  background: rgb(255 255 255 / 0.1);
+  animation: ce-pulse-pop 360ms var(--via-ease-spring) 1.2s both;
+  border: 1px solid rgb(255 255 255 / 0.16);
+}
+.ce-pulse-number {
+  margin-top: 6px;
+  font-size: 24px;
+  line-height: 1.1;
+  font-weight: var(--via-fw-medium);
+  letter-spacing: var(--via-ls-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--via-white);
+}
+.ce-pulse-module--wide .ce-pulse-number {
+  font-size: 24px;
+}
+.ce-pulse-source {
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+.ce-pulse-viz {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 0;
+  margin-top: 10px;
+}
+/* Brilho do módulo que a etapa da história acabou de mudar (chave = pulso). */
+.ce-pulse-module {
+  position: relative;
+}
+.ce-pulse-lit {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--via-white) 70%, transparent);
+  animation: ce-pulse-lit 1600ms var(--via-ease-out) forwards;
+}
+@keyframes ce-pulse-lit {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* alcance: área + pontos de publicação + marca do início, em HTML sobre o SVG */
+.ce-pulse-plot {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.ce-pulse-chart {
+  display: block;
+  flex: 1 1 0;
+  width: 100%;
+  height: auto;
+  min-height: 40px;
+  overflow: visible;
+}
+.ce-pulse-grid {
+  stroke: color-mix(in srgb, var(--via-white) 7%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+.ce-pulse-line {
+  fill: none;
+  stroke: var(--subido-blue-light);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 700ms var(--via-ease-out);
+}
+.ce-pulse-area {
+  transition: d 700ms var(--via-ease-out);
+  animation: ce-pulse-fade 800ms var(--via-ease-out) 300ms both;
+}
+.ce-pulse-pub {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 999px;
+  background: var(--via-white);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--via-white) 35%, transparent);
+  animation: ce-pulse-pop 360ms var(--via-ease-spring) 600ms both;
+}
+.ce-pulse-pub[data-new] {
+  animation: ce-pulse-pop 420ms var(--via-ease-spring) both;
+}
+.ce-pulse-start {
+  position: absolute;
+  top: -2px;
+  bottom: 14px;
+  padding-left: 5px;
+  border-left: 1px dashed color-mix(in srgb, var(--via-white) 30%, transparent);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+.ce-pulse-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+/* semana: barra por dia com o número; hoje em destaque */
+.ce-pulse-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  flex: 1;
+  min-height: 0;
+  gap: 5px;
+}
+.ce-pulse-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.ce-pulse-week-bar {
+  position: relative;
+  display: block;
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 32px;
+}
+.ce-pulse-week-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 4px 4px 2px 2px;
+  background: color-mix(in srgb, var(--subido-blue) 70%, transparent);
+  transform: scaleY(var(--h));
+  transform-origin: bottom;
+  transition: transform 600ms var(--via-ease-spring);
+  animation: ce-pulse-bar-in 600ms var(--via-ease-out) both;
+  animation-delay: calc(300ms + var(--i) * 50ms);
+}
+.ce-pulse-week-day[data-today] .ce-pulse-week-bar::before {
+  background: linear-gradient(180deg, var(--via-white), var(--subido-blue-light));
+}
+.ce-pulse-week-n {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--h) * 100% + 2px);
+  text-align: center;
+  font-size: 11px;
+  font-weight: var(--via-fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--via-white) 55%, transparent);
+  transition: bottom 600ms var(--via-ease-spring);
+}
+.ce-pulse-week-day[data-today] .ce-pulse-week-n {
+  color: var(--via-white);
+}
+.ce-pulse-week-label {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+.ce-pulse-week-day[data-today] .ce-pulse-week-label {
+  color: var(--via-white);
+}
+/* revisão: grade de 50 peças */
+.ce-pulse-grid50 {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  max-width: 190px;
+  gap: 3px;
+}
+.ce-pulse-grid50 > span {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--via-white) 8%, transparent);
+}
+.ce-pulse-grid50 > span[data-state="ok"] {
+  background: var(--subido-blue);
+}
+.ce-pulse-grid50 > span[data-state="fixed"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--via-white) 55%, transparent);
+}
+.ce-pulse-grid50 > span[data-new] {
+  background: var(--via-white);
+  animation: ce-pulse-pop 420ms var(--via-ease-spring) both;
+}
+/* mercado: você × média dos concorrentes */
+.ce-pulse-market-wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.ce-pulse-market {
+  display: block;
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 32px;
+  overflow: visible;
+}
+.ce-pulse-market-you,
+.ce-pulse-market-them {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 700ms var(--via-ease-out);
+}
+.ce-pulse-market-you {
+  stroke: var(--subido-blue-light);
+  stroke-width: 2.5;
+}
+.ce-pulse-market-them {
+  stroke: color-mix(in srgb, var(--via-white) 35%, transparent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+.ce-pulse-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+.ce-pulse-legend > span[data-you] {
+  font-weight: var(--via-fw-medium);
+  color: var(--subido-blue-light);
+}
+/* redes: a mesma peça em cada rede, do agendado ao publicado com alcance */
+.ce-pulse-redes {
+  display: grid;
+  gap: clamp(4px, 1.2cqw, 9px);
+}
+.ce-pulse-caption {
+  margin-top: 8px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--via-white) 50%, transparent);
+}
+.ce-pulse-redes > li {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.ce-pulse-redes-name {
+  color: color-mix(in srgb, var(--via-white) 75%, transparent);
+}
+.ce-pulse-redes-wait {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--via-white) 40%, transparent);
+}
+/* cada troca de etapa entra rede a rede, rápido */
+.ce-pulse-redes-wait {
+  animation: ce-pulse-pop 280ms var(--via-ease-spring) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+.ce-pulse-redes > li[data-status="adapting"] .ce-pulse-redes-wait {
+  color: var(--subido-blue-light);
+  background: linear-gradient(
+    90deg,
+    var(--subido-blue-light) 0%,
+    var(--via-white) 50%,
+    var(--subido-blue-light) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation:
+    ce-pulse-pop 280ms var(--via-ease-spring) both,
+    ce-pulse-shimmer 1.2s linear infinite;
+  animation-delay: calc(var(--i) * 70ms), 0s;
+}
+.ce-pulse-redes > li[data-status="ready"] .ce-pulse-redes-wait {
+  color: color-mix(in srgb, var(--via-white) 75%, transparent);
+}
+.ce-pulse-redes > li[data-status="scheduled"] .ce-pulse-redes-wait {
+  color: var(--subido-blue-pale);
+}
+@keyframes ce-pulse-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.ce-pulse-redes-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: var(--via-fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--via-white);
+  animation: ce-pulse-pop 320ms var(--via-ease-spring) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+.ce-pulse-redes-result svg {
+  color: var(--subido-blue-pale);
+}
+/* Avisos flutuantes: moram nas faixas acima e abaixo do mural (o padding
+   de .ce-pulse), nunca sobre um módulo. Entram com salto, flutuam e o
+   anterior sai quando chega o próximo. */
+.ce-pulse-toast {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  max-width: 78%;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 7px;
+  border-radius: 14px;
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--via-navy) 55%, transparent);
+  animation:
+    ce-pulse-toast-in 520ms var(--via-ease-spring) both,
+    ce-pulse-float 5s var(--via-ease) 520ms infinite;
+}
+.ce-pulse-toast[data-leaving] {
+  animation:
+    ce-pulse-toast-out 450ms var(--via-ease-out) 1.3s forwards,
+    ce-pulse-float 5s var(--via-ease) infinite;
+}
+.ce-pulse-toast--0 {
+  top: 6px;
+  right: -28px;
+}
+.ce-pulse-toast--1 {
+  bottom: 6px;
+  right: -28px;
+}
+/* as duas de cima ficam longe do logo, no canto esquerdo do painel */
+.ce-pulse-toast--2 {
+  top: 6px;
+  left: 26%;
+}
+.ce-pulse-toast--3 {
+  bottom: 6px;
+  left: -28px;
+}
+.ce-pulse-toast-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ce-pulse-toast-net {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: var(--via-white);
+}
+.ce-pulse-toast-value {
+  font-size: 13px;
+  font-weight: var(--via-fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--via-white);
+}
+.ce-pulse-toast-label {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--via-white) 60%, transparent);
+}
+@keyframes ce-pulse-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ce-pulse-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ce-pulse-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ce-pulse-bar-in {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes ce-pulse-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ce-pulse-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+}
+@keyframes ce-pulse-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+@media (max-width: 1279px) {
+  .ce-pulse-toast--3 {
+    left: 0;
+  }
+  .ce-pulse-toast--0,
+  .ce-pulse-toast--1 {
+    right: 0;
+  }
+}
+/* tela baixa: o que pesa é o espaço fixo (faixas dos avisos, logo, margens),
+   então o mural inteiro encolhe por igual — zoom mexe no layout, nada sai da
+   tela nem se sobrepõe */
+@media (max-height: 860px) {
+  .ce-pulse {
+    zoom: 0.84;
+    max-width: min(860px, calc((100vh - 190px) * 1.4));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ce-pulse,
+  .ce-pulse * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ce-pulse-cell:hover,
+  .ce-pulse-wall:has(.ce-pulse-cell:hover) .ce-pulse-cell:not(:hover) {
+    transform: none;
+  }
+  .ce-pulse-area {
+    opacity: 1;
+  }
+}
+
+/* Palco navy das telas de acesso: o contêiner do LoginStage do kit (raio 2xl,
+   navy com dois halos do azul da marca), com o EnginePulse do produto dentro. */
+.ce-auth-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--via-radius-2xl);
+  padding: clamp(28px, 4vw, 48px);
+  color: var(--via-white);
+  background:
+    radial-gradient(
+      720px 420px at 0% 0%,
+      color-mix(in srgb, var(--subido-blue) 20%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      640px 460px at 100% 100%,
+      color-mix(in srgb, var(--subido-blue) 14%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(160deg, var(--via-navy) 0%, var(--via-navy-deep) 70%);
+  box-shadow:
+    0 1px 0 var(--via-edge-hi) inset,
+    0 30px 60px -36px var(--via-shadow-ink-60);
+}
+/* Tela baixa: as margens do palco e as faixas dos avisos cedem espaço antes
+   do mural, para nada ser cortado embaixo. */
+@media (max-height: 760px) {
+  .ce-auth-stage {
+    gap: 16px;
+    padding-block: 28px;
+  }
+  .ce-pulse {
+    padding-block: 44px;
+  }
+  .ce-pulse-toast--0,
+  .ce-pulse-toast--2 {
+    top: 2px;
+  }
+  .ce-pulse-toast--1,
+  .ce-pulse-toast--3 {
+    bottom: 2px;
+  }
+}
+@media (max-height: 640px) {
+  .ce-pulse-chart {
+    min-height: 24px;
+  }
+  .ce-pulse-week-bar,
+  .ce-pulse-market {
+    min-height: 20px;
+  }
+  .ce-pulse-grid50 {
+    max-width: 150px;
+  }
+}
+/* trama fina do palco do kit (lst-stage::before) */
+.ce-auth-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(120% 90% at 30% 20%, #000 30%, transparent 75%);
+}
+/* campo com erro no formulário de acesso: borda coral (o kit usa a cor do texto de erro) */
+.lsf-control input[aria-invalid="true"] {
+  border-color: var(--via-coral);
+}
+/* botão de mostrar senha dentro do campo de 58px */
+.lsf-control .lsf-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Painel narrativo do assistente de configuração (kit, 04 §2): o mesmo navy do
+   palco das telas de acesso, sem halo colorido forte. */
+.ce-setup-panel {
+  background:
+    radial-gradient(
+      520px 360px at 0% 0%,
+      color-mix(in srgb, var(--subido-blue) 16%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(170deg, var(--via-navy) 0%, var(--via-navy-deep) 80%);
+}
+
+/* Botão desabilitado não tem sombra: a sombra de tinta do primário vem do
+   revenue.css (sem layer) e venceria o `disabled:shadow-none` do Tailwind. */
+.ds-btn:disabled,
+.lsf-btn:disabled {
+  box-shadow: none;
+}
+
+/* O revenue.css sobe todo texto pequeno do <main> para 13px com line-height
+   1.45. Onde o componente já escolheu a entrelinha (leading-*), ela vale:
+   sem isto, blocos de altura fixa (ladrilhos do hub, cartões de opção)
+   cortavam a segunda linha no meio. Mesma especificidade, vem depois. */
+:root
+  main
+  :is(
+    .text-xs,
+    [class*="text-[0.6875rem]"],
+    [class*="text-[11px]"],
+    [class*="text-[10px]"]
+  )[class*="leading-"] {
+  line-height: revert-layer;
+}
+
+/* Botão outline que é seletor (aria-pressed) é opção, não ação: no kit vira
+   chip de borda fina, não texto sublinhado. Selecionado = fio navy + tint leve
+   (regra da casa: sem sombra na seleção). Vence o revenue.css por especificidade. */
+:root :is(.ds-btn--outline, .ds-btn--secondary)[aria-pressed] {
+  text-decoration: none;
+  border-color: var(--via-border-soft);
+  color: var(--via-text-muted);
+}
+:root :is(.ds-btn--outline, .ds-btn--secondary)[aria-pressed="true"] {
+  border-color: var(--via-navy);
+  background: var(--via-navy-04);
+  color: var(--via-text-primary);
+}
+
+/* North Star do KPI: o revenue.css procura o 1º indicador por posição
+   (:first-child), mas o Kpi do kit embrulha cada card num @container e a
+   regra nunca casa. O destaque vem da classe, com especificidade maior. */
+:root .ds-metric.ds-metric--destaque {
+  border-color: var(--via-navy-20);
+}
+:root .ds-metric--destaque .ds-metric-value {
+  font-size: clamp(1.5rem, 14cqi, 2.75rem);
+  font-weight: var(--via-fw-semibold);
+  letter-spacing: -0.035em;
+  color: var(--via-text-primary);
+}

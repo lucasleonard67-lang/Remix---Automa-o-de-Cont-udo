@@ -1,0 +1,11 @@
+node_modules
+dist
+.output
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+bun.lock
+routeTree.gen.ts
+
+# espelho byte a byte de supabase/functions/_shared (estilo Deno); o teste confere a cópia
+src/lib/receitas-de-video.ts

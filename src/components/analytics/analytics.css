@@ -1,0 +1,35 @@
+/* Módulo Desempenho · movimento de dados (só transform/opacity/stroke) */
+
+/* Linha da sparkline desenha ao carregar (pathLength=1 no SVG). */
+.via-spark__line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: via-draw-line 700ms var(--via-ease-out) forwards;
+}
+@keyframes via-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* "Para fazer hoje": três colunas separadas por fios, sem cartão. */
+@media (min-width: 640px) {
+  .ce-takeaway + .ce-takeaway {
+    padding-left: 24px;
+    border-left: 1px solid var(--via-border-soft);
+  }
+}
+
+/* Micro-barra cresce da esquerda em 700ms. */
+.via-bar__fill--grow {
+  transform-origin: left center;
+  animation: via-grow-bar 700ms var(--via-ease-out) both;
+}
+@keyframes via-grow-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

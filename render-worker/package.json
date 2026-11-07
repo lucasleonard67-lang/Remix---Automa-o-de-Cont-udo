@@ -1,0 +1,9 @@
+{
+  "name": "render-worker",
+  "private": true,
+  "description": "Render de vídeo do editor por prompt (HyperFrames).",
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "hyperframes": "0.8.221"
+  }
+}

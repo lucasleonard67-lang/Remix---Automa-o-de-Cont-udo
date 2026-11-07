@@ -1,0 +1,447 @@
+/* ===========================================================================
+   LAYOUT EDITORIAL do carrossel — o padrão da casa.
+
+   Medido num carrossel de referência de 1080×1350 e convertido para `cqw`
+   (1cqw = 1% da largura do slide), então vale igual no preview de 540px e no
+   PNG de 1080px. Os fundamentos (margem, ritmo vertical, proporção da foto,
+   hierarquia) são fixos; cor e família vêm do brand kit.
+
+     margem lateral ........ 8,4cqw (91px)
+     manchete .............. 5,68cqw · 700 · entrelinha 1,1 · -0,025em
+     manchete → texto ...... 3,6cqw
+     texto ................. 3,02cqw · entrelinha 1,53 · parágrafos a 2,6cqw
+     texto → apoio ......... 4,7cqw (foto) · 4,5cqw (gráfico)
+     foto .................. largura do texto · 16:9 · canto 0,5cqw
+     gráfico ............... legenda 2,36cqw caixa alta · barra final em --accent
+     bloco ................. centrado na vertical; sem cabeçalho nem rodapé
+     capa .................. foto sangrada em 61% da altura, véu preto a partir
+                             de 40%, texto embaixo a 7,4cqw da borda
+   =========================================================================== */
+
+.via-slide[data-layout="editorial"] {
+  --ed-x: 8.4cqw;
+  --ed-fit: var(--fit, 1);
+  background: var(--paper, #fafaf8);
+  color: var(--ink, #0a0a0a);
+}
+
+/* Os eixos de forma dos outros layouts não entram aqui: o editorial tem
+   tipografia fixa, e a marca personaliza só cor, fonte e foto. */
+.via-slide[data-layout="editorial"][data-layout] .title {
+  text-transform: none;
+  text-shadow: none;
+}
+
+/* ── Miolo ─────────────────────────────────────────────────────────────── */
+.via-slide[data-layout="editorial"]:not([data-kind="cover"]) .mid {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 8cqw var(--ed-x);
+}
+.via-slide[data-layout="editorial"] .title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(5.68cqw * var(--ed-fit) * var(--title-scale, 1));
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.via-slide[data-layout="editorial"] .body {
+  margin-top: calc(3.6cqw * var(--ed-fit));
+  display: flex;
+  flex-direction: column;
+  gap: calc(2.6cqw * var(--ed-fit));
+  max-width: none;
+  white-space: normal;
+  font-size: calc(3.02cqw * var(--ed-fit));
+  line-height: 1.53;
+  color: color-mix(in srgb, var(--ink, #111) 94%, transparent);
+}
+.via-slide[data-layout="editorial"] .body p {
+  margin: 0;
+  text-wrap: pretty;
+}
+.via-slide[data-layout="editorial"] strong {
+  font-weight: 700;
+  color: var(--ink, #0a0a0a);
+}
+.via-slide[data-layout="editorial"] .media {
+  margin: calc(4.7cqw * var(--ed-fit)) 0 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.5cqw;
+  background: var(--ink-08);
+}
+.via-slide[data-layout="editorial"] .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* gráfico de barras: legenda, valores em cima, rótulos embaixo */
+.via-slide[data-layout="editorial"] .chart {
+  margin: calc(4.5cqw * var(--ed-fit)) 0 0;
+}
+.via-slide[data-layout="editorial"] .chart-label {
+  font-size: 2.36cqw;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted, #8f8e8a);
+}
+.via-slide[data-layout="editorial"] .bars {
+  margin-top: 2.6cqw;
+  height: calc(31.4cqw * var(--ed-fit));
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 6.8cqw;
+}
+.via-slide[data-layout="editorial"] .bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 0;
+}
+.via-slide[data-layout="editorial"] .bar .v {
+  font-family: var(--font-display);
+  font-size: 3cqw;
+  font-weight: 700;
+  margin-bottom: 0.8cqw;
+}
+/* --h = valor ÷ maior valor. A altura desconta valor e rótulo: em % puro a
+   coluna estourava e o flex achatava as maiores (270 ficava igual a 336) */
+.via-slide[data-layout="editorial"] .bar .fill {
+  flex: none;
+  width: 100%;
+  height: calc((100% - 8.4cqw) * var(--h, 1));
+  background: var(--ink, #0d0e10);
+}
+.via-slide[data-layout="editorial"] .bar .k {
+  margin-top: 1.4cqw;
+  font-size: 2.5cqw;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--ink, #111) 62%, transparent);
+}
+.via-slide[data-layout="editorial"] .bar.hi .v {
+  color: var(--accent);
+}
+.via-slide[data-layout="editorial"] .bar.hi .fill {
+  background: var(--accent);
+}
+
+/* ── Capa ──────────────────────────────────────────────────────────────── */
+.via-slide[data-layout="editorial"][data-kind="cover"] {
+  background: #000;
+  color: #fff;
+}
+/* capa ainda sem foto: tinta da marca com um halo do destaque — nunca um
+   retângulo preto esperando a imagem */
+.via-slide[data-layout="editorial"][data-kind="cover"][data-cover-photo="off"] {
+  background:
+    radial-gradient(120% 70% at 85% 0%, var(--accent-35) 0%, transparent 60%), var(--ink, #0a0a0a);
+}
+.via-slide[data-layout="editorial"][data-kind="cover"][data-cover-photo="off"] .scrim {
+  background: none;
+}
+.via-slide[data-layout="editorial"][data-kind="cover"][data-cover-photo="off"] .mid {
+  max-height: none;
+  top: 0;
+  justify-content: flex-end;
+}
+.via-slide[data-layout="editorial"][data-kind="cover"] .photo {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 61%;
+  z-index: 0;
+}
+.via-slide[data-layout="editorial"][data-kind="cover"] .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* capa como peça de arte: a imagem já traz a manchete e sangra inteira. Sem isto,
+   a foto fica nos 61% acima e a manchete desenhada nela sai cortada */
+.via-slide[data-layout="editorial"][data-kind="cover"][data-art-rendered="true"] .photo {
+  inset: 0;
+  height: 100%;
+}
+/* véu: a foto se apaga no preto antes do texto começar */
+.via-slide[data-layout="editorial"][data-kind="cover"] .scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.82) 54%,
+    #000 61%
+  );
+}
+.via-slide[data-layout="editorial"][data-kind="cover"] .mid {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  max-height: 62%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0 7.4cqw 6.5cqw;
+}
+.via-slide[data-layout="editorial"] .byline {
+  display: flex;
+  align-items: center;
+  gap: 1.8cqw;
+}
+.via-slide[data-layout="editorial"] .avatar {
+  width: 7.2cqw;
+  height: 7.2cqw;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 3cqw;
+}
+/* é logo, não retrato: inteiro e sobre papel, nunca cortado pelo círculo */
+.via-slide[data-layout="editorial"] .avatar:has(img) {
+  background: var(--paper, #fafaf8);
+}
+.via-slide[data-layout="editorial"] .avatar img {
+  width: 100%;
+  height: 100%;
+  padding: 0.6cqw;
+  object-fit: contain;
+}
+.via-slide[data-layout="editorial"] .who {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.via-slide[data-layout="editorial"] .who .name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.9cqw;
+}
+.via-slide[data-layout="editorial"] .who .at {
+  font-size: 2.45cqw;
+  color: rgba(255, 255, 255, 0.62);
+}
+.via-slide[data-layout="editorial"][data-kind="cover"] .title {
+  margin-top: 3.3cqw;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: calc(4.65cqw * var(--ed-fit) * var(--title-scale, 1));
+  line-height: 1.23;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+}
+.via-slide[data-layout="editorial"][data-kind="cover"] strong {
+  color: #fff;
+}
+.via-slide[data-layout="editorial"] .cta {
+  margin-top: 2.4cqw;
+  font-size: 2.4cqw;
+  font-weight: 700;
+}
+
+/* ── Stories 9:16 (1080×1920 · altura = 177,8cqw) ───────────────────────
+   Zona segura do Instagram: topo ~25cqw e base ~32cqw são UI do app.
+   Abertura em foto, miolo em papel, fecho em tinta; sem seta de arrastar. */
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cover"] .photo {
+  height: 62%;
+}
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cover"] .scrim {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 38%,
+    rgba(0, 0, 0, 0.82) 54%,
+    #000 62%
+  );
+}
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cover"] .mid {
+  max-height: 70%;
+  padding: 0 8cqw 36cqw;
+}
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cover"] .title {
+  font-size: calc(5.2cqw * var(--ed-fit) * var(--title-scale, 1));
+  line-height: 1.25;
+}
+.via-slide[data-layout="editorial"][data-format="story"]:not([data-kind="cover"]) .mid {
+  padding: 28cqw 9cqw 36cqw;
+}
+.via-slide[data-layout="editorial"][data-format="story"]:not([data-kind="cover"]) .title {
+  font-size: calc(6.4cqw * var(--ed-fit) * var(--title-scale, 1));
+  line-height: 1.1;
+}
+.via-slide[data-layout="editorial"][data-format="story"] .body {
+  margin-top: calc(4.8cqw * var(--ed-fit));
+  gap: calc(3.2cqw * var(--ed-fit));
+  font-size: calc(3.3cqw * var(--ed-fit));
+  line-height: 1.6;
+}
+.via-slide[data-layout="editorial"][data-format="story"] .media,
+.via-slide[data-layout="editorial"][data-format="story"] .chart {
+  margin-top: calc(6cqw * var(--ed-fit));
+}
+.via-slide[data-layout="editorial"][data-format="story"] .chart-label {
+  font-size: 2.4cqw;
+}
+.via-slide[data-layout="editorial"][data-format="story"] .bars {
+  height: calc(30cqw * var(--ed-fit));
+}
+.via-slide[data-layout="editorial"][data-format="story"] .bar .v {
+  font-size: 3.4cqw;
+}
+/* fecho: tinta invertida com o halo do destaque; a marca assina pequena */
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cta"] {
+  background:
+    radial-gradient(120% 70% at 85% 0%, var(--accent-35) 0%, transparent 60%), var(--ink, #0a0a0a);
+  color: var(--paper, #fafaf8);
+}
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cta"] .body {
+  color: color-mix(in srgb, var(--paper, #fafaf8) 88%, transparent);
+}
+.via-slide[data-layout="editorial"][data-format="story"][data-kind="cta"] strong {
+  color: var(--paper, #fafaf8);
+}
+.via-slide[data-layout="editorial"] .byline--small {
+  margin-top: calc(7cqw * var(--ed-fit));
+}
+.via-slide[data-layout="editorial"] .byline--small .avatar {
+  width: 5cqw;
+  height: 5cqw;
+  font-size: 2.2cqw;
+}
+.via-slide[data-layout="editorial"] .byline--small .who .name {
+  font-size: 2.2cqw;
+}
+
+/* ── Fecho do carrossel: tinta com o halo do destaque, como a capa fecha em
+   preto. Manchete maior, o próximo passo como mensagem da marca (balão) ou
+   texto, a bandeja de botões e a assinatura pequena. Botões são arte: não
+   clicam; o verde é do WhatsApp, o resto vem do brand kit. ─────────────── */
+.via-slide[data-layout="editorial"][data-closing="on"] {
+  background:
+    radial-gradient(120% 70% at 85% 0%, var(--accent-35) 0%, transparent 60%), var(--ink, #0a0a0a);
+  color: var(--paper, #fafaf8);
+}
+.via-slide[data-layout="editorial"][data-closing="on"] .title {
+  font-size: calc(6.4cqw * var(--ed-fit) * var(--title-scale, 1));
+  letter-spacing: -0.03em;
+}
+.via-slide[data-layout="editorial"][data-closing="on"] .body {
+  font-size: calc(3.3cqw * var(--ed-fit));
+  color: color-mix(in srgb, var(--paper, #fafaf8) 86%, transparent);
+}
+.via-slide[data-layout="editorial"][data-closing="on"] strong {
+  color: var(--paper, #fafaf8);
+}
+/* balão: a marca escreve, como numa conversa; o canto reto embaixo é a cauda */
+.via-slide[data-layout="editorial"] .bubble {
+  margin-top: calc(4.4cqw * var(--ed-fit));
+  align-self: flex-start;
+  max-width: 86%;
+  padding: 3.1cqw 4cqw 2.2cqw;
+  border-radius: 3.4cqw 3.4cqw 3.4cqw 0.9cqw;
+  background: var(--paper, #fafaf8);
+  color: var(--ink, #0a0a0a);
+  font-size: calc(3.1cqw * var(--ed-fit));
+  line-height: 1.45;
+}
+.via-slide[data-layout="editorial"] .bubble p {
+  margin: 0;
+  text-wrap: pretty;
+}
+.via-slide[data-layout="editorial"] .bubble strong {
+  color: var(--ink, #0a0a0a);
+}
+.via-slide[data-layout="editorial"] .bubble .when {
+  display: block;
+  margin-top: 1.2cqw;
+  text-align: right;
+  font-size: 2.1cqw;
+  font-weight: 600;
+  color: var(--muted, #8f8e8a);
+}
+/* bandeja: o botão do canal e, embaixo, os dois que o Instagram oferece */
+.via-slide[data-layout="editorial"] .tray {
+  margin-top: calc(6cqw * var(--ed-fit));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.2cqw;
+}
+.via-slide[data-layout="editorial"] .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2cqw;
+  height: 9.6cqw;
+  padding: 0 4.8cqw 0 4cqw;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent, #fff);
+  box-shadow: inset 0 0 0 0.28cqw rgba(255, 255, 255, 0.16);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3.1cqw;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.via-slide[data-layout="editorial"] .btn svg {
+  width: 4.6cqw;
+  height: 4.6cqw;
+  flex-shrink: 0;
+}
+.via-slide[data-layout="editorial"] .btn--whatsapp {
+  background: #25d366;
+  color: #fff;
+}
+.via-slide[data-layout="editorial"] .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8cqw;
+}
+.via-slide[data-layout="editorial"] .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6cqw;
+  height: 7.6cqw;
+  padding: 0 3.4cqw 0 3cqw;
+  border-radius: 999px;
+  border: 0.28cqw solid color-mix(in srgb, var(--paper, #fafaf8) 30%, transparent);
+  color: color-mix(in srgb, var(--paper, #fafaf8) 88%, transparent);
+  font-size: 2.6cqw;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.via-slide[data-layout="editorial"] .chip svg {
+  width: 3.4cqw;
+  height: 3.4cqw;
+  flex-shrink: 0;
+}
+.via-slide[data-layout="editorial"][data-closing="on"] .byline--small .who .at {
+  font-size: 2.1cqw;
+  color: color-mix(in srgb, var(--paper, #fafaf8) 62%, transparent);
+}
+
+/* ── Post 4:5 / 1:1: um card = um slide de miolo editorial; sem assinatura
+   (no feed o nome da conta já está em cima do post) ────────────────────── */
+.via-slide[data-layout="editorial"][data-format="post"] .mid {
+  padding: 8cqw var(--ed-x);
+}

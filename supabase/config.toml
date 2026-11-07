@@ -1,0 +1,59 @@
+project_id = "qijzbszefzhetgjqjyxq"
+
+# Funções públicas no gateway (docs/15 §5, docs/18): cada uma valida o chamador
+# no próprio código. Todas as outras ficam no padrão verify_jwt = true.
+
+# Zernio posta o webhook sem JWT; valida a assinatura HMAC.
+[functions.zernio-webhook]
+verify_jwt = false
+
+# Cron (invoke_fetch_rss) manda x-cron-secret do Vault, sem JWT.
+[functions.fetch-rss]
+verify_jwt = false
+
+# Replicate posta o webhook sem JWT; valida a assinatura svix.
+[functions.replicate-webhook]
+verify_jwt = false
+
+# Cron (invoke_video_reconcile) manda x-cron-secret; admin pode chamar com JWT.
+[functions.video-reconcile]
+verify_jwt = false
+
+# Cron (invoke_director_advance) manda x-cron-secret; admin pode chamar com JWT.
+[functions.director-advance]
+verify_jwt = false
+
+# Cron (invoke_video_edit_tick) manda x-cron-secret; admin chama com JWT. A função
+# confere os dois no próprio código (video-edit/index.ts) e recusa o resto.
+[functions.video-edit]
+verify_jwt = false
+
+# O navegador volta do OAuth do Higgsfield sem Authorization; valida o state.
+[functions.higgsfield-oauth]
+verify_jwt = false
+
+# Cron (invoke_automation_tick) manda x-cron-secret, sem JWT.
+[functions.automation-tick]
+verify_jwt = false
+
+# Cliente MCP autentica com o token do conector (Bearer), não com JWT do Supabase.
+[functions.mcp-server]
+verify_jwt = false
+
+[functions.google-drive]
+verify_jwt = false
+
+[functions.drive-hub]
+verify_jwt = false
+
+# Cron (invoke_metrics_sync) manda x-cron-secret METRICS_CRON_SECRET, sem JWT.
+[functions.metrics-sync]
+verify_jwt = false
+
+# Cron (invoke_market_sync) manda x-cron-secret MARKET_CRON_SECRET; admin usa JWT.
+[functions.competitor-sync]
+verify_jwt = false
+
+# Tela chama com sessão da pessoa; gateway confere o JWT.
+[functions.roteiro-pedido]
+verify_jwt = true

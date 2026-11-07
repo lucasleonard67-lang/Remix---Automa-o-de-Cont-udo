@@ -1,0 +1,4 @@
+.env
+hf-tokens.json
+bin/
+tmp/

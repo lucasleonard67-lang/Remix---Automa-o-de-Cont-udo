@@ -1,0 +1,42 @@
+/* Geist · self-hosted · variável (100–900) · normal + italic
+   Geist é open-source (SIL OFL 1.1 / MIT) da Vercel — ver LICENSE.txt.
+   Importe este arquivo OU use o CDN do Google Fonts (ver system-prompt.md).
+   Casa com os tokens --via-font ('Geist') e --via-font-mono ('Geist Mono'). */
+@font-face {
+  font-family: 'Geist';
+  src: url('./Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('./Geist-Italic-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('./GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('./GeistMono-Italic-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+/* Anton · self-hosted · títulos e letterings do brand kit Subido AI
+   (sempre em caixa alta). SIL OFL 1.1 — ver LICENSE-Anton.txt.
+   Casa com o token --via-font-display ('Anton'). */
+@font-face {
+  font-family: 'Anton';
+  src: url('./Anton-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
